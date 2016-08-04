@@ -28,7 +28,14 @@ module RubyPowerpoint
 
     def parse_slide_notes
       slide_notes_doc = @presentation.files.file.open @slide_notes_xml_path rescue nil
-      @slide_notes_xml = Nokogiri::XML::Document.parse(slide_notes_doc) if slide_notes_doc
+      if slide_notes_doc
+        @slide_notes_xml = Nokogiri::XML::Document.parse(slide_notes_doc)
+
+        # Cut out page number
+        @slide_notes_xml = @slide_notes_xml.pop
+        # Join text together
+        @slide_notes_xml = @slide_notes_xml.join
+      end 
     end
 
     def parse_relation
