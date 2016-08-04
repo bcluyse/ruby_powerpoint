@@ -1,4 +1,4 @@
-require 'zip/filesystem'
+require 'zip/zipfilesystem'
 require 'nokogiri'
 
 module RubyPowerpoint
@@ -9,7 +9,7 @@ module RubyPowerpoint
 
     def initialize path
       raise 'Not a valid file format.' unless (['.pptx'].include? File.extname(path).downcase)
-      @files = Zip::File.open path
+      @files = Zip::ZipFile.open path
     end
 
     def slides

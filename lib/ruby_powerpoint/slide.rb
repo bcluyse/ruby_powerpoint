@@ -1,4 +1,4 @@
-require 'zip/filesystem'
+require 'zip/zipfilesystem'
 require 'nokogiri'
 
 module RubyPowerpoint
