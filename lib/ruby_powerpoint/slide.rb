@@ -32,7 +32,7 @@ module RubyPowerpoint
         @slide_notes_xml = Nokogiri::XML::Document.parse(slide_notes_doc)
 
         # Cut out page number
-        @slide_notes_xml = @slide_notes_xml.pop
+        @slide_notes_xml.pop
         # Join text together
         @slide_notes_xml = @slide_notes_xml.join
       end 
