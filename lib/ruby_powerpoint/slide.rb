@@ -58,6 +58,33 @@ module RubyPowerpoint
       end
 
     end
+
+    def change_title(new_title, old_title)
+      if(title == old_title)
+
+        # Find the title
+        temp = nil
+        @slide_xml.xpath('//p:sp').each do |node|
+          if(element_is_title(node))
+            node.xpath('//a:t').each do |attempt|
+              if(attempt.content == old_title)
+                puts attempt.content
+                attempt.content = new_title
+              end
+            end
+          end
+        end
+
+        # Write to file
+        @presentation.files.get_output_stream(@slide_xml_path) { |f| f.puts @slide_xml }
+        # File.write(@slide_xml_path, @slide_xml)
+       
+
+
+        return
+      end
+    end
+
     
     def title
       title_elements = title_elements(@slide_xml)

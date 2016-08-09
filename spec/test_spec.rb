@@ -32,7 +32,7 @@ describe 'RubyPowerpoint parsing a sample PPTX file' do
 
   it "it parses Slide Notes of a PPTX  slides" do
     notes_content = @deck.slides[0].notes_content
-    notes_content.should eql ["Testing", " Multiline Notes.", "To be extracted here.", "Multiline notes extracted.", "1"]
+    notes_content.should eql "Testing Multiline Notes.To be extracted here.Multiline notes extracted."
   end
 
 end
@@ -77,6 +77,10 @@ describe 'open rime.pptx file' do
     
     it 'should only get one title even if there are two things that visually look like titles' do
       @deck.slides[7].title.should eql "What if we have two"
+    end
+
+    it "should be able to change the title of the slide" do
+      @deck.slides[0].change_title("jepla", "The Rime of the Ancient Mariner")
     end
   end
 end
