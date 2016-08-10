@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'nokogiri', '~> 1.6.0'
   spec.add_dependency 'rubyzip', '~> 0.9.9'  
+  spec.add_dependency 'ruby-debug'
 end

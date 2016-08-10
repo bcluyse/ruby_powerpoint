@@ -80,7 +80,7 @@ describe 'open rime.pptx file' do
     end
 
     it "should be able to change the title of the slide" do
-      @deck.slides[0].change_title("jepla", "The Rime of the Ancient Mariner")
+      @deck.slides[0].change_title("jepla", "The Rime of the Ancient Mariner", "testresult.pptx")
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'zip/zipfilesystem'
+require 'zip/zip'
 require 'nokogiri'
 
 module RubyPowerpoint
@@ -59,7 +59,7 @@ module RubyPowerpoint
 
     end
 
-    def change_title(new_title, old_title)
+    def change_title(new_title, old_title, result)
       if(title == old_title)
 
         # Find the title
@@ -75,12 +75,50 @@ module RubyPowerpoint
           end
         end
 
-        # Write to file
-        @presentation.files.get_output_stream(@slide_xml_path) { |f| f.puts @slide_xml }
-        # File.write(@slide_xml_path, @slide_xml)
-       
+        # # Write to file
+        # @presentation.files.get_output_stream(@slide_xml_path) { |f| f.puts @slide_xml } 
+        # outputstream = @presentation.files.get_output_stream(@slide_xml_path)
+        # outputstream.write @slide_xml
+        # outputstream.close
+        # puts 'this is important operation'
 
+        # Zip::ZipFile.open("spec/fixtures/rime.pptx", "wb") {
+        #   |f| 
+        #   os = f.get_output_stream(@slide_xml_path)
+        #   os.write @slide_xml.to_s
+        #   os.close
+        #   f.commit
+        # }
 
+        # @presentation.files.get_output_stream(@slide_xml_path) {|f| f.write(@slide_xml.to_s)}  
+
+        # buffer = Zip::ZipOutputStream.write_buffer do |out|
+        #   out.put_next_entry(@slide_xml_path)
+        #   out.write @slide_xml
+        # end
+
+        # @presentation.files.get_output_stream(@slide_xml_path) {|f| f.write(buffer.string) }
+
+        # use dir.tmpdir
+
+        # Rubyzip does not create a valid zip file in whatever way this is attempted
+        # Alternative in commandline
+        name = @presentation.files.name
+        folder = name[0..name.rindex('/')]
+        resultname = folder + result
+        xmlFiles = 'docProps ppt _rels [Content_Types].xml'
+        
+        # unzip the pptx
+        `unzip #{name}`
+
+        # overwrite the necessary file
+        File.open(@slide_xml_path, 'w+') { |f| f.write(@slide_xml.to_s) }
+
+        # zip the pptx
+        `zip #{resultname} -r #{xmlFiles}`
+
+        # remove the folders
+        `rm -rf #{xmlFiles}`
         return
       end
     end
