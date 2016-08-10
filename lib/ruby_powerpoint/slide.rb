@@ -104,8 +104,11 @@ module RubyPowerpoint
         # Rubyzip does not create a valid zip file in whatever way this is attempted
         # Alternative in commandline
         name = @presentation.files.name
-        folder = name[0..name.rindex('/')]
-        resultname = folder + result
+        if(name.include? '/')
+          folder = name[0..name.rindex('/')]
+          result = folder + result
+        end
+      
         xmlFiles = 'docProps ppt _rels [Content_Types].xml'
         
         # unzip the pptx
@@ -115,7 +118,7 @@ module RubyPowerpoint
         File.open(@slide_xml_path, 'w+') { |f| f.write(@slide_xml.to_s) }
 
         # zip the pptx
-        `zip #{resultname} -r #{xmlFiles}`
+        `zip #{result} -r #{xmlFiles}`
 
         # remove the folders
         `rm -rf #{xmlFiles}`
